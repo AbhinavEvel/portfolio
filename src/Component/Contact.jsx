@@ -1,74 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { profile } from '../data/config';
 
 export default function Contact() {
+  const [f, setF] = useState({ name: '', email: '', subject: '', message: '' });
+  const on = (k) => (e) => setF({ ...f, [k]: e.target.value });
+
+  // No backend needed: opens the visitor's mail app with the message filled in.
+  const submit = (e) => {
+    e.preventDefault();
+    const body = `${f.message}\n\nFrom: ${f.name} (${f.email})`;
+    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(f.subject || 'Project enquiry')}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
-    <>
-     <div className="bg-color pb-5" id="contact">
-        <div className="container py-5">
-            <div className="row g-5 mb-5 wow fadeInUp" data-wow-delay="0.1s">
-                <div className="col-lg-6">
-                    <h1 className="display-5 mb-0">Let's Work Together</h1>
-                </div>
-                <div className="col-lg-6 text-lg-end">
-                    <a className="btn btn-primary py-3 px-5" href="">Say Hello</a>
-                </div>
+    <section className="section contact" id="contact">
+      <div className="container">
+        <h2 className="section-title text-white">Let's work together</h2>
+        <p className="section-sub text-light-soft">Have a project in mind? Tell me about it and I'll reply with timeline and cost.</p>
+        <div className="row g-5">
+          <div className="col-lg-5">
+            <p className="mb-1 text-light-soft">Location</p><h5>{profile.location}</h5><hr />
+            <p className="mb-1 text-light-soft">Call / WhatsApp</p><h5><a href={profile.whatsapp} target="_blank" rel="noreferrer">{profile.phone}</a></h5><hr />
+            <p className="mb-1 text-light-soft">Email</p><h5><a href={`mailto:${profile.email}`}>{profile.email}</a></h5><hr />
+            <div className="d-flex gap-3 hero-social">
+              <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><i className="fab fa-github"></i></a>
+              <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+              <a href={profile.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp"><i className="fab fa-whatsapp"></i></a>
             </div>
-            <div className="row g-5">
-                <div className="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <p className="mb-2">Place:</p>
-                    <h3 className="fw-bold">Noida</h3>
-                    <hr className="w-100"/>
-                    <p className="mb-2">Call me:</p>
-                    <h3 className="fw-bold">7814980141</h3>
-                    <hr className="w-100"/>
-                    <p className="mb-2">Mail me:</p>
-                    <h3 className="fw-bold">abhinavsaini697@gmail.com</h3>
-                    <hr className="w-100"/>
-                    <p className="mb-2">Follow me:</p>
-                    <div className="d-flex pt-2">
-                        <a className="btn btn-square btn-primary me-2" href=""><i className="fab fa-twitter"></i></a>
-                        <a className="btn btn-square btn-primary me-2" href=""><i className="fab fa-facebook-f"></i></a>
-                        <a className="btn btn-square btn-primary me-2" href=""><i className="fab fa-youtube"></i></a>
-                        <a className="btn btn-square btn-primary me-2" href=""><i className="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div className="col-lg-7 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <p className="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & MongoDB in a few minutes. Just copy and paste the files, add a little code and you're done.</p>
-                    <form>
-                        <div className="row g-3">
-                            <div className="col-md-6">
-                                <div className="form-floating">
-                                    <input type="text" className="form-control" id="name" placeholder="Your Name"/>
-                                    <label for="name">Your Name</label>
-                                </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="form-floating">
-                                    <input type="email" className="form-control" id="email" placeholder="Your Email"/>
-                                    <label for="email">Your Email</label>
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="form-floating">
-                                    <input type="text" className="form-control" id="subject" placeholder="Subject"/>
-                                    <label for="subject">Subject</label>
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="form-floating">
-                                    <textarea className="form-control" placeholder="Leave a message here" id="message" style={{height: "100px"}}></textarea>
-                                    <label for="message">Message</label>
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <button className="btn btn-primary py-3 px-5" type="submit">Send Message</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+          </div>
+          <div className="col-lg-7">
+            <form onSubmit={submit}>
+              <div className="row g-3">
+                <div className="col-md-6"><input className="form-control" placeholder="Your name" required value={f.name} onChange={on('name')} /></div>
+                <div className="col-md-6"><input className="form-control" type="email" placeholder="Your email" required value={f.email} onChange={on('email')} /></div>
+                <div className="col-12"><input className="form-control" placeholder="Subject (e.g. Spring Boot API for my app)" value={f.subject} onChange={on('subject')} /></div>
+                <div className="col-12"><textarea className="form-control" rows="5" placeholder="Describe your project" required value={f.message} onChange={on('message')}></textarea></div>
+                <div className="col-12"><button className="btn btn-primary btn-lg px-5" type="submit">Send Message</button></div>
+              </div>
+            </form>
+          </div>
         </div>
-    </div> 
-    </>
-  )
+      </div>
+    </section>
+  );
 }

@@ -1,0 +1,23 @@
+
+services:
+  portfolio:
+    image: node:20-alpine
+    container_name: portfolio-dev
+
+    working_dir: /app
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+
+    command: sh -c "npm ci && npm start"
+
+    stdin_open: true
+    tty: true

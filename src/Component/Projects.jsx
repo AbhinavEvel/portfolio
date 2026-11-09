@@ -1,39 +1,39 @@
-import React from 'react'
+import React from 'react';
+import { projects } from '../data/config';
 
 export default function Projects() {
   return (
-    <>
-         <div class="bg-color py-6 pt-5" id="project">
-        <div class="container">
-            <div class="row g-5 mb-5 align-items-center wow fadeInUp" data-wow-delay="0.1s">
-                <div class="col-lg-6">
-                    <h1 class="display-2 mb-0">My Projects</h1>
+    <section className="section alt" id="projects">
+      <div className="container">
+        <h2 className="section-title">Projects</h2>
+        <p className="section-sub">Real work you can open, click through and read the code for.</p>
+        <div className="row g-4">
+          {projects.map((p) => (
+            <div className={p.featured ? 'col-12' : 'col-md-6'} key={p.title}>
+              <div className={`project card-x p-0 overflow-hidden h-100 ${p.featured ? 'featured' : ''}`}>
+                <div className="row g-0 h-100">
+                  <div className={p.featured ? 'col-lg-6' : 'col-12'}>
+                    <img className="project-img" src={p.image} alt={p.title} loading="lazy" />
+                  </div>
+                  <div className={p.featured ? 'col-lg-6' : 'col-12'}>
+                    <div className="p-4">
+                      {p.featured && <span className="badge text-bg-danger mb-2">Featured · Live</span>}
+                      <h4 className="fw-bold">{p.title}</h4>
+                      <p>{p.text}</p>
+                      <div className="tags mb-3">{p.tech.map((t) => <span key={t}>{t}</span>)}</div>
+                      <div className="d-flex flex-wrap gap-2">
+                        {p.live && <a className="btn btn-primary btn-sm" href={p.live} target="_blank" rel="noreferrer"><i className="fas fa-external-link-alt me-1"></i> Live Demo</a>}
+                        {p.github && <a className="btn btn-outline-dark btn-sm" href={p.github} target="_blank" rel="noreferrer"><i className="fab fa-github me-1"></i> Source Code</a>}
+                        {p.post && <a className="btn btn-outline-primary btn-sm" href={p.post} target="_blank" rel="noreferrer"><i className="fab fa-linkedin-in me-1"></i> LinkedIn Post</a>}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
+              </div>
             </div>
-            <div class="row g-4 portfolio-container wow fadeInUp" data-wow-delay="0.1s">
-                <div class="col-lg-4 col-md-6 portfolio-item first">
-                    <div class="portfolio-img rounded overflow-hidden">
-                        <img class="img-fluid" src="img/webpic.png" alt=""/>
-                        <h4 className='text-center p-2'>Ecommerce Web site</h4>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item second">
-                    <div class="portfolio-img rounded overflow-hidden">
-                        <img class="img-fluid" src="img/webpec2.png" alt=""/>
-                        <h4>Employe Data Entery</h4>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item first">
-                    <div class="portfolio-img rounded overflow-hidden">
-                        <img class="img-fluid" src="img/webpic3.png" alt=""/>
-                        <h4>Data Base Testing</h4>
-                    </div>
-                </div>
-            </div>
+          ))}
         </div>
-    </div>
-      
-    </>
-  )
+      </div>
+    </section>
+  );
 }
